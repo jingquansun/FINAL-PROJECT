@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Sunny's Journal</title>
+    <link href="https://fonts.googleapis.com/css?family=Cousine:400" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<header>
+{% with messages=get_flashed_message() %}
+{% if messages %}
+    <div class ="messages">
+        {% for message in messages %}
+        <div class="messages">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="site-header">
+            <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_book</i></a>
+    {% block head %}{% endblock %}
+            </div>
+        </div>
+    </header>
+            <body>
+        <div class="container">
+        {% if current_user.is_authenticated %}
+            <a class="button icon-right" href="{{ url_for('create_new') }}">
+            <span>New Entry</span> <i class="material-icons">add</i></a>
+        {% endif %}
+        </div>
+        <footer>
+            <div>
+                &copy; Sunny's Journal
+            </div>
+        </footer>
+    </body>
+</html>

@@ -6,7 +6,6 @@ from peewee import *
 
 DATABASE = SqliteDatabase('journal.db')
 
-
 class Entry(Model):
     journal_id = IntegerField(primary_key=True)
     title = TextField(unique=True)
@@ -23,14 +22,14 @@ class Entry(Model):
     def create_entry(cls, title, time_spent, learned, to_remember):
         with DATABASE.transaction():
             try:
-                cls.create(title=title,
-                           created=datetime.datetime.now,
-                           time_spent=time_spent,
-                           learned=learned,
-                           to_remember=to_remember)
+                with DATABASE.transaction():
+                    cls.create(title=title,
+                               created=datetime.datetime.now,
+                               time_spent=time_spent,
+                               learned=learned,
+                               to_remember=to_remember)
             except IntegrityError:
                 raise ValueError("Entry already exists")
-
 
 def initialize():
     DATABASE.connect()
